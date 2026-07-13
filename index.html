@@ -15,9 +15,9 @@ font-family:monospace;
 overflow:hidden;
 }
 
-#sayac{
+#count{
 color:white;
-font-size:120px;
+font-size:100px;
 }
 
 #kalp{
@@ -25,118 +25,67 @@ display:none;
 color:#00ff00;
 font-size:18px;
 line-height:18px;
-text-align:center;
-text-shadow:0 0 15px #00ff00;
+text-shadow:0 0 10px #00ff00;
+white-space:pre;
+overflow:hidden;
+height:0;
 }
 
-.satir{
-opacity:0;
-animation:gel 0.35s forwards;
+.animate{
+display:block!important;
+animation:kalp 3s linear forwards;
 }
 
-@keyframes gel{
+@keyframes kalp{
 from{
-opacity:0;
-transform:translateY(-20px);
+height:0;
 }
 to{
-opacity:1;
-transform:translateY(0);
+height:360px;
 }
 }
 
-#yazi{
-color:white;
-font-size:22px;
-margin-top:15px;
-}
 </style>
 </head>
 
 <body>
 
-<div id="sayac">3</div>
+<div id="count">3</div>
 
-<div id="kalp"></div>
+<pre id="kalp">
+        010101     101010
+     01010101010 01010101010
+   010101010101010101010101
+  10101010101010101010101010
+ 010101010101010101010101010
+ 010101010101010101010101010
+  1010101010101010101010101
+   01010101010101010101010
+    10101010101010101010
+      0101010101010101
+        10101010101
+          01010101
+            10101
+             101
+              1
+</pre>
 
 <script>
 
-let sayac=document.getElementById("sayac");
-let kalp=document.getElementById("kalp");
-
 let sayi=3;
+let ekran=document.getElementById("count");
 
-let geri=setInterval(()=>{
-
+let timer=setInterval(()=>{
 sayi--;
+ekran.innerHTML=sayi;
 
-if(sayi>0){
-sayac.innerHTML=sayi;
-}else{
-
-clearInterval(geri);
-
-sayac.style.display="none";
-kalp.style.display="block";
-
-kalpOlustur();
-
+if(sayi==0){
+clearInterval(timer);
+ekran.style.display="none";
+document.getElementById("kalp").classList.add("animate");
 }
 
 },1000);
-
-
-function kalpOlustur(){
-
-let sekil=[
-"   **     **   ",
-" ****** ****** ",
-"***************",
-"***************",
-" ************* ",
-"  ***********  ",
-"   *********   ",
-"    *******    ",
-"     *****     ",
-"      ***      ",
-"       *       "
-];
-
-
-let kodlar="01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%";
-
-let satirlar=[];
-
-
-sekil.forEach((satir,index)=>{
-
-let sonuc="";
-
-for(let i=0;i<satir.length;i++){
-
-if(satir[i]==" "){
-sonuc+=" ";
-}
-else{
-sonuc+=kodlar[Math.floor(Math.random()*kodlar.length)];
-}
-
-}
-
-satirlar.push(
-"<div class='satir' style='animation-delay:"+((index*4)/sekil.length)+"s'>"
-+sonuc+
-"</div>"
-);
-
-});
-
-
-kalp.innerHTML=satirlar.join("")
-+
-"<div id='yazi'>Sen benimsin</div>";
-
-}
 
 </script>
 
