@@ -2,76 +2,142 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kalbim ❤️</title>
 
 <style>
 body{
 background:black;
 height:100vh;
+margin:0;
 display:flex;
 justify-content:center;
 align-items:center;
-margin:0;
-font-family:Arial;
+font-family:monospace;
+overflow:hidden;
 }
 
-#sayi{
+#sayac{
 color:white;
 font-size:120px;
 }
 
 #kalp{
 display:none;
-font-size:180px;
-position:relative;
-animation:kalp 1s infinite;
+color:#00ff00;
+font-size:18px;
+line-height:18px;
+text-align:center;
+text-shadow:0 0 15px #00ff00;
 }
 
-#kalp span{
-position:absolute;
-font-size:25px;
+.satir{
+opacity:0;
+animation:gel 0.35s forwards;
+}
+
+@keyframes gel{
+from{
+opacity:0;
+transform:translateY(-20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+#yazi{
 color:white;
-left:50%;
-top:50%;
-transform:translate(-50%,-50%);
-white-space:nowrap;
-}
-
-@keyframes kalp{
-50%{
-transform:scale(1.25);
-}
+font-size:22px;
+margin-top:15px;
 }
 </style>
 </head>
 
 <body>
 
-<div id="sayi">3</div>
+<div id="sayac">3</div>
 
-<div id="kalp">
-❤️
-<span>Sen benimsin</span>
-</div>
+<div id="kalp"></div>
 
 <script>
-let x=3;
 
-let sayi=document.getElementById("sayi");
+let sayac=document.getElementById("sayac");
 let kalp=document.getElementById("kalp");
 
-let zaman=setInterval(()=>{
-x--;
+let sayi=3;
 
-if(x>0){
-sayi.innerHTML=x;
+let geri=setInterval(()=>{
+
+sayi--;
+
+if(sayi>0){
+sayac.innerHTML=sayi;
 }else{
-clearInterval(zaman);
-sayi.style.display="none";
+
+clearInterval(geri);
+
+sayac.style.display="none";
 kalp.style.display="block";
+
+kalpOlustur();
+
 }
 
 },1000);
+
+
+function kalpOlustur(){
+
+let sekil=[
+"   **     **   ",
+" ****** ****** ",
+"***************",
+"***************",
+" ************* ",
+"  ***********  ",
+"   *********   ",
+"    *******    ",
+"     *****     ",
+"      ***      ",
+"       *       "
+];
+
+
+let kodlar="01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%";
+
+let satirlar=[];
+
+
+sekil.forEach((satir,index)=>{
+
+let sonuc="";
+
+for(let i=0;i<satir.length;i++){
+
+if(satir[i]==" "){
+sonuc+=" ";
+}
+else{
+sonuc+=kodlar[Math.floor(Math.random()*kodlar.length)];
+}
+
+}
+
+satirlar.push(
+"<div class='satir' style='animation-delay:"+((index*4)/sekil.length)+"s'>"
++sonuc+
+"</div>"
+);
+
+});
+
+
+kalp.innerHTML=satirlar.join("")
++
+"<div id='yazi'>Sen benimsin</div>";
+
+}
+
 </script>
 
 </body>
